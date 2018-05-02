@@ -24,8 +24,8 @@ function! GetLine(line)
 endfunction
 
 function! s:FlowCoverageRefresh()
-  let command = g:flow#flowpath . ' coverage ' . g:flow#flags
-  let result = system(command, getline(1, '$'))
+  let command = g:flow#flowpath . ' coverage ' . expand('%') . g:flow#flags 
+  let result = system(command)
 
   if v:shell_error > 0 || empty(result)
     let b:flow_coverage_status = ''
@@ -90,8 +90,8 @@ function! s:FindRefs(pos) abort
     unlet b:flow_current_refs
   endif
 
-  let command = g:flow#flowpath . ' find-refs ' . a:pos . g:flow#flags
-  let result = system(command, getline(1, '$'))
+  let command = g:flow#flowpath . ' find-refs ' . expand('%') . ' ' . a:pos . g:flow#flags 
+  let result = system(command)
 
   if v:shell_error > 0 || empty(result)
     if v:shell_error == 6
@@ -165,8 +165,8 @@ endfunction
 
 function! s:TypeAtPos()
   let pos = line('.') . ' ' . col('.')
-  let command = g:flow#flowpath . ' type-at-pos ' . pos . g:flow#flags
-  let result = system(command, getline(1, '$'))
+  let command = g:flow#flowpath . ' type-at-pos ' . expand('%') . ' ' . pos . g:flow#flags 
+  let result = system(command)
 
   if v:shell_error > 0 || empty(result)
     return
